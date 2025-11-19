@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.TitleBarCtrls;
 
 type
   TfrmMain = class(TForm)
@@ -16,13 +16,20 @@ type
     btnPushPop: TButton;
     btnSelf: TButton;
     btnNoReturn: TButton;
+    cbxStyles: TComboBox;
+    TitleBarPanel1: TTitleBarPanel;
+    Edit1: TEdit;
+    Button1: TButton;
     procedure btnTernaryClick(Sender: TObject);
+
     procedure btnNameOfClick(Sender: TObject);
     procedure btnIsNotClick(Sender: TObject);
     procedure btnNotInClick(Sender: TObject);
     procedure btnPushPopClick(Sender: TObject);
     procedure btnSelfClick(Sender: TObject);
     procedure btnNoReturnClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure cbxStylesChange(Sender: TObject);
   private
     procedure FatalError(aMsg: string); //noreturn;
     function ComputeValue(A, B: integer): Integer;
@@ -54,7 +61,8 @@ implementation
 
 uses
   System.math,
-
+  vcl.Themes,
+  vcl.Styles,
   uArcherClass;
 
 function DoCalc(A, B : Integer) : Integer;
@@ -80,6 +88,17 @@ begin
 end;
 
 
+
+procedure TfrmMain.FormCreate(Sender: TObject);
+begin
+  cbxStyles.Items.Clear;
+
+
+  for var StyleName in TStyleManager.StyleNames do
+    cbxStyles.Items.Add(StyleName);
+
+  cbxStyles.ItemIndex := cbxStyles.Items.IndexOf(TStyleManager.ActiveStyle.Name);
+end;
 
 procedure TfrmMain.btnIsNotClick(Sender: TObject);
 begin
@@ -169,6 +188,17 @@ begin
    C := IfThen(B <> 0, doCalc(A,B), 0);
    showmessage(C.ToString);
 
+end;
+
+procedure TfrmMain.cbxStylesChange(Sender: TObject);
+begin
+   //To add a custom titlebar
+  //set the form.CustomTitleBar.enabled := true;
+  //drop a TTitleBarPanel on the form
+  //set form.CustomTitleBar.Control to the dropped component
+  //set the form.StyleElements to true (all of them)
+
+   TStyleManager.TrySetStyle(cbxStyles.Text);
 end;
 
 procedure TfrmMain.btnNoReturnClick(Sender: TObject);
