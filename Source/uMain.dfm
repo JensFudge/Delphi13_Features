@@ -73,4 +73,13 @@ object frmMain: TfrmMain
     TabOrder = 6
     OnClick = btnSelfClick
   end
+  object btnNoReturn: TButton
+    Left = 48
+    Top = 192
+    Width = 75
+    Height = 25
+    Caption = 'No Return'
+    TabOrder = 7
+    OnClick = btnNoReturnClick
+  end
 end

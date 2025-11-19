@@ -2,6 +2,9 @@ unit uArcherClass;
 
 interface
 
+uses
+  generics.collections;
+
 Type
 
   TArcher = class (TObject)
@@ -17,6 +20,8 @@ Type
   TRecurveArcher = class (TArcher)
 
   end;
+
+
 
 implementation
 

@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9C6975E0-1D15-4217-837C-0BC41F0D202E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Delphi13Features.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="D13AI.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Delphi13Features">
+        <MSBuild Projects="Delphi13Features.dproj"/>
+    </Target>
+    <Target Name="Delphi13Features:Clean">
+        <MSBuild Projects="Delphi13Features.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Delphi13Features:Make">
+        <MSBuild Projects="Delphi13Features.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="D13AI">
+        <MSBuild Projects="D13AI.dproj"/>
+    </Target>
+    <Target Name="D13AI:Clean">
+        <MSBuild Projects="D13AI.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="D13AI:Make">
+        <MSBuild Projects="D13AI.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Delphi13Features;D13AI"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Delphi13Features:Clean;D13AI:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Delphi13Features:Make;D13AI:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

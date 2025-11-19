@@ -15,13 +15,17 @@ type
     btnNotIn: TButton;
     btnPushPop: TButton;
     btnSelf: TButton;
+    btnNoReturn: TButton;
     procedure btnTernaryClick(Sender: TObject);
     procedure btnNameOfClick(Sender: TObject);
     procedure btnIsNotClick(Sender: TObject);
     procedure btnNotInClick(Sender: TObject);
     procedure btnPushPopClick(Sender: TObject);
     procedure btnSelfClick(Sender: TObject);
+    procedure btnNoReturnClick(Sender: TObject);
   private
+    procedure FatalError(aMsg: string); //noreturn;
+    function ComputeValue(A, B: integer): Integer;
     { Private declarations }
   public
     { Public declarations }
@@ -49,13 +53,32 @@ implementation
 {$R *.dfm}
 
 uses
-  math,
+  System.math,
+
   uArcherClass;
 
 function DoCalc(A, B : Integer) : Integer;
 begin
    Result := A div B;
 end;
+
+function TfrmMain.ComputeValue (A, B : integer) : Integer;
+begin
+  //This will either raise an exception or return a value
+  If A = 5 then
+    FatalError(format('%s cannot be 5', [nameOf(A)]))    //If FatalError is called it will stop and not return
+  else
+    Result := A + B;
+end;
+
+
+//I can decorate FatalError method with noreturn, to tell the compiler it will never return
+procedure TfrmMain.FatalError(aMsg : string);
+begin
+  OutputDebugString(Pchar(aMsg));
+  raise Exception.Create(aMsg);
+end;
+
 
 
 procedure TfrmMain.btnIsNotClick(Sender: TObject);
@@ -81,18 +104,22 @@ begin
   lbValues.Items.Clear;
   lbValues.Items.Add(NameOf(Sender));
   lbValues.Items.Add((Sender as TComponent).Name);  //This is not using the NameOf
+
+  {$PUSHOPT}
+  {$HINTS off}
   var lArcher : TArcher;
   lbValues.Items.Add(NameOf(lArcher));
 
   var i : Integer := 42;
   var j : Integer := 2;
   lbValues.Items.Add(NameOf(DoCalc) + ' called with ' + NameOf(i)+': ' + IntToStr(i) + ', '+  NameOf(j) + ': ' + IntToStr(j))  ;
-
 end;
+{$POPOPT}
 
 procedure TfrmMain.btnNotInClick(Sender: TObject);
 begin
   //The Not In operator is a more readable version of not in
+
 
   var point : Integer := 9;
 
@@ -142,8 +169,18 @@ begin
    C := IfThen(B <> 0, doCalc(A,B), 0);
    showmessage(C.ToString);
 
+end;
+
+procedure TfrmMain.btnNoReturnClick(Sender: TObject);
+begin
+  var i : integer := 5;
+  var j : integer := 6;
+
+  //ComputeValue could end up not returning anything
+  var k := ComputeValue(i,j);
 
 
+  lbValues.Items.Add(k.ToString);
 end;
 
 procedure TfrmMain.btnSelfClick(Sender: TObject);
