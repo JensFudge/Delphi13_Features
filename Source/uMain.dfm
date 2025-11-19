@@ -29,7 +29,7 @@ object frmMain: TfrmMain
     TabOrder = 1
     OnClick = btnNameOfClick
   end
-  object lbNames: TListBox
+  object lbValues: TListBox
     Left = 248
     Top = 48
     Width = 313
@@ -39,7 +39,7 @@ object frmMain: TfrmMain
   end
   object btnIsNot: TButton
     Left = 48
-    Top = 232
+    Top = 96
     Width = 75
     Height = 25
     Caption = 'Is Not'
@@ -48,11 +48,29 @@ object frmMain: TfrmMain
   end
   object btnNotIn: TButton
     Left = 152
-    Top = 232
+    Top = 96
     Width = 75
     Height = 25
     Caption = 'Not In'
     TabOrder = 4
     OnClick = btnNotInClick
+  end
+  object btnPushPop: TButton
+    Left = 48
+    Top = 144
+    Width = 75
+    Height = 25
+    Caption = '{$PUSHOPT}'
+    TabOrder = 5
+    OnClick = btnPushPopClick
+  end
+  object btnSelf: TButton
+    Left = 152
+    Top = 144
+    Width = 75
+    Height = 25
+    Caption = 'Rec Self'
+    TabOrder = 6
+    OnClick = btnSelfClick
   end
 end
