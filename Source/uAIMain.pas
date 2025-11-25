@@ -33,7 +33,8 @@ uses
 
 {$R *.dfm}
 
-
+      //what is the maximum velocity of an unladen swallow?
+      //What is the ultimate number
 
 procedure TForm1.AIChatRequest1Response(Sender: TObject; const Text: string);
 begin

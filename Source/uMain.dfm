@@ -30,6 +30,7 @@ object frmMain: TfrmMain
   Font.Style = []
   GlassFrame.Enabled = True
   GlassFrame.Top = 31
+  StyleElements = [seFont, seClient]
   OnCreate = FormCreate
   TextHeight = 15
   object btnTernary: TButton

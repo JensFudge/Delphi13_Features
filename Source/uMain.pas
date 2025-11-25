@@ -124,8 +124,11 @@ begin
   lbValues.Items.Add(NameOf(Sender));
   lbValues.Items.Add((Sender as TComponent).Name);  //This is not using the NameOf
 
-  {$PUSHOPT}
-  {$HINTS off}
+//  {$PUSHOPT}
+//  {$HINTS off}
+
+  //As NameOf doesnt actually use the instans, there will be a compiler hint
+  //[dcc64 Hint] uMain.pas(135): H2164 Variable 'lArcher' is declared but never used in 'TfrmMain.btnNameOfClick'
   var lArcher : TArcher;
   lbValues.Items.Add(NameOf(lArcher));
 
@@ -133,7 +136,7 @@ begin
   var j : Integer := 2;
   lbValues.Items.Add(NameOf(DoCalc) + ' called with ' + NameOf(i)+': ' + IntToStr(i) + ', '+  NameOf(j) + ': ' + IntToStr(j))  ;
 end;
-{$POPOPT}
+//{$POPOPT}
 
 procedure TfrmMain.btnNotInClick(Sender: TObject);
 begin
@@ -159,7 +162,8 @@ begin
   //result := if condition then value1 else value2;
 
   //and is a shortcut to  the classic
-  // if condition then result := value1
+  // if condition then
+  //result := value1
   // else result := value2
 
   //it is quite clear to read, and here are a few examples
@@ -168,6 +172,12 @@ begin
    var B : integer := 0;
 
    var C : Integer := if B <> 0 then doCalc(A, B) else A;    //doCalc is A div B
+
+   //Old Syntax
+   if B <> 0 then
+     C := doCalc(A, B)
+   else
+     C := A;
 
    var Recurve : Boolean := true;
 
@@ -184,7 +194,7 @@ begin
 
    //There is an older version of something similar
    //But this does not use lazy evaluation. The "complex" method doCalc will be evaluated
-
+   //And result in a div by zero exception
    C := IfThen(B <> 0, doCalc(A,B), 0);
    showmessage(C.ToString);
 
@@ -244,11 +254,14 @@ begin
    //   {$Q-}
 
     {$PUSHOPT}
-    {$R-}
-    {$Q-}
+    {$R-}  //Switch off Range checks
+    {$Q-}  //Switch off Overflow checks
     Inc(c);
     lbValues.Items.Add(c.ToString);
     {$POPOPT}   //The {$POPOPT} will restore the settings
+
+    //Without PUSHOPT and POPOPT I would not know at this point if I need to switch them back on, if they were switched off elsewhere
+
     c := 255;
     try
       Inc(c);
