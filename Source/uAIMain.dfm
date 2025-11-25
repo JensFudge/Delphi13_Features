@@ -36,14 +36,14 @@ object Form1: TForm1
   end
   object AIConnection1: TAIConnection
     Driver = AIOpenAIDriver1
-    Left = 280
+    Left = 312
     Top = 152
   end
   object AIOpenAIDriver1: TAIOpenAIDriver
     Params.Strings = (
-      'Model=gpt-4.1-mini')
-    Left = 384
-    Top = 152
+      'Model=gpt-4o')
+    Left = 488
+    Top = 144
   end
   object AIChatRequest1: TAIChatRequest
     Connection = AIConnection1
